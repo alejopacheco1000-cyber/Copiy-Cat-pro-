@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 
     String shizukuShell(String command) {
         try {
-            Process p = Shizuku.newProcess(new String[]{"sh","-c",command}, null, null);
+            java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh","-c",command});
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             StringBuilder out = new StringBuilder(); String line;
             while ((line = br.readLine()) != null) out.append(line).append("\n");
@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 
     boolean rootShell(String command) {
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{"su","-c",command});
+            java.lang.Process p = Runtime.getRuntime().exec(new String[]{"su","-c",command});
             p.waitFor();
             return p.exitValue() == 0;
         } catch (Throwable e) { return false; }
