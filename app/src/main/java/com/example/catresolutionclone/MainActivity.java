@@ -96,9 +96,9 @@ public class MainActivity extends Activity {
     boolean execute(String command) {
         if (canUseShizuku()) {
             try {
-                java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh","-c",command});
+                java.lang.Process p = Shizuku.newProcess(new String[]{"sh","-c",command}, null, null);
                 p.waitFor();
-                if (p.exitValue() == 0) return true;
+                return p.exitValue() == 0;
             } catch (Throwable ignored) {}
         }
         return rootShell(command);
