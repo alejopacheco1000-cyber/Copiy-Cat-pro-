@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
     CatView v;
     static final int SHIZUKU_REQ = 100;
     boolean shizukuGranted = false;
+    static final String TARGET_DEVICE = "Huawei Y9 Prime / Kirin 710F";
 
     @Override public void onCreate(Bundle b) {
         super.onCreate(b);
@@ -70,7 +71,7 @@ public class MainActivity extends Activity {
 
     String shizukuShell(String command) {
         try {
-            java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh","-c",command});
+            java.lang.Process p = Shizuku.newProcess(new String[]{"sh","-c",command}, null, null);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             StringBuilder out = new StringBuilder(); String line;
             while ((line = br.readLine()) != null) out.append(line).append("\n");
@@ -101,6 +102,15 @@ public class MainActivity extends Activity {
             } catch (Throwable ignored) {}
         }
         return rootShell(command);
+    }
+
+    boolean isHuaweiKirin() {
+        String brand = android.os.Build.BRAND == null ? "" : android.os.Build.BRAND.toLowerCase(Locale.US);
+        String maker = android.os.Build.MANUFACTURER == null ? "" : android.os.Build.MANUFACTURER.toLowerCase(Locale.US);
+        String model = android.os.Build.MODEL == null ? "" : android.os.Build.MODEL.toLowerCase(Locale.US);
+        String hw = android.os.Build.HARDWARE == null ? "" : android.os.Build.HARDWARE.toLowerCase(Locale.US);
+        return (brand.contains("huawei") || maker.contains("huawei")) &&
+               (model.contains("stk") || hw.contains("kirin") || hw.contains("hi") || model.contains("stf"));
     }
 
     String nativeSize() {
@@ -173,8 +183,8 @@ public class MainActivity extends Activity {
             box(c,getWidth()/2+10,267,getWidth()-54,321,dark?0xff454047:0xffe8e3e9,27);
             tx(c,"RESTAURAR",getWidth()/2+42,301,17,fg(),true);
             tx(c,"PRESETS RÁPIDOS",36,387,16,purple,true);
-            String[] f={"1,05x","1,10x","1,11x","1,15x"};
-            for(int i=0;i<4;i++){float x=36+i*91;box(c,x,405,x+82,454,Math.abs(factor-new float[]{1.05f,1.10f,1.11f,1.15f}[i])<.001?purple:surface(),10);tx(c,f[i],x+18,436,14,Math.abs(factor-new float[]{1.05f,1.10f,1.11f,1.15f}[i])<.001?Color.WHITE:purple,true);}
+            String[] f={"1,05x","1,10x","1,11x","1,15x","1,30x"};
+            for(int i=0;i<5;i++){float x=28+i*68;box(c,x,405,x+62,454,Math.abs(factor-new float[]{1.05f,1.10f,1.11f,1.15f,1.30f}[i])<.001?purple:surface(),10);tx(c,f[i],x+10,436,14,Math.abs(factor-new float[]{1.05f,1.10f,1.11f,1.15f}[i])<.001?Color.WHITE:purple,true);}
         }
 
         void presets(Canvas c){
@@ -230,7 +240,7 @@ public class MainActivity extends Activity {
             if(y>h-95){page=Math.min(4,(int)(x/(w/5)));invalidate();return true;}
 
             if(page==0&&y>260&&y<335){ if(x<w/2)apply(); else restore(); }
-            else if(page==0&&y>395&&y<470){int i=(int)((x-36)/91);choose(i);}
+            else if(page==0&&y>395&&y<470){int i=(int)((x-28)/68);choose(i);}
             else if(page==1&&y>175&&y<560){int i=(int)((y-180)/94);choose(i);}
             else if(page==2&&y>175&&y<430){
                 if(y<285){overlay=!overlay; if(overlay)requestOverlay(); invalidate();}
@@ -247,17 +257,18 @@ public class MainActivity extends Activity {
         }
 
         void choose(int i){
-            if(i<0||i>3)return;
-            factor=new float[]{1.05f,1.10f,1.11f,1.15f}[i]; invalidate();
+            if(i<0||i>4)return;
+            factor=new float[]{1.05f,1.10f,1.11f,1.15f,1.30f}[i]; invalidate();
         }
 
         void apply(){
             String nativeRes=nativeSize().replace(" ","");
             try{
                 String[] q=nativeRes.split("×"); int w=Integer.parseInt(q[0]),h=Integer.parseInt(q[1]);
-                int target=Math.min(Math.round(w*factor),Math.round(w*1.30f));
+                float maxFactor = isHuaweiKirin() ? 1.30f : 1.30f;
+                int target=Math.min(Math.round(w*factor),Math.round(w*maxFactor));
                 active=execute("wm size "+target+"x"+h);
-                toast(active?"Resolución aplicada: "+target+"x"+h:"No se pudo aplicar. Autoriza Shizuku o Root.");
+                toast(active?"Huawei/Kirin: resolución aplicada "+target+"x"+h:"No se pudo aplicar. Verifica Shizuku autorizado.");
             }catch(Exception e){toast("No se pudo leer la resolución nativa");}
             invalidate();
         }
