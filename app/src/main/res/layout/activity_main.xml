@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg">
+<LinearLayout
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="20dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Cat Stretch Pro" android:textSize="28sp" android:textStyle="bold"
+        android:textColor="@color/text"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Estira la vista sin cambiar la resolución física del panel"
+        android:textSize="14sp" android:textColor="#706A78" android:layout_marginTop="4dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="22dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="NATIVA" android:textStyle="bold" android:textColor="#5C5268"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="PROYECCIÓN" android:textStyle="bold" android:textColor="#5C5268"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="5dp">
+        <TextView android:id="@+id/nativeRes" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="Detectando…" android:textSize="18sp" android:textColor="@color/text"/>
+        <TextView android:id="@+id/projectedRes" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="—" android:textSize="18sp" android:textColor="@color/text"/>
+    </LinearLayout>
+
+    <SeekBar android:id="@+id/stretch" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:max="99" android:progress="50" android:layout_marginTop="20dp"/>
+
+    <TextView android:id="@+id/stretchValue" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Estiramiento: 1.50x" android:textSize="17sp" android:textStyle="bold"
+        android:gravity="center" android:textColor="@color/text"/>
+
+    <Button android:id="@+id/activate" android:layout_width="match_parent" android:layout_height="54dp"
+        android:text="ACTIVAR" android:layout_marginTop="18dp"/>
+    <Button android:id="@+id/restore" android:layout_width="match_parent" android:layout_height="54dp"
+        android:text="RESTAURAR"/>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="🛡  MODO DE PROTECCIÓN" android:textStyle="bold" android:textSize="16sp"
+        android:textColor="@color/text" android:layout_marginTop="24dp"/>
+    <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="La app funciona como interfaz de control. Para aplicar una transformación real sobre otras apps se requiere acceso privilegiado."
+        android:textSize="14sp" android:textColor="#706A78" android:layout_marginTop="8dp"/>
+
+    <Button android:id="@+id/overlay" android:layout_width="match_parent" android:layout_height="52dp"
+        android:text="PERMITIR VENTANA FLOTANTE" android:layout_marginTop="14dp"/>
+</LinearLayout>
+</ScrollView>
