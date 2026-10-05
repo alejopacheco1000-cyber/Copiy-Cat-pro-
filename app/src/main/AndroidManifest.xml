@@ -1,13 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="moe.shizuku.manager.permission.API_V23" />
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:theme="@style/AppTheme"
-        android:label="CAT Resolution Pro"
+        android:label="Cat Stretch Pro"
         android:allowBackup="false"
         android:supportsRtl="true">
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
